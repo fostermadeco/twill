@@ -1233,6 +1233,10 @@ abstract class ModuleController extends Controller
                 'skipCreateModal' => 'edit',
             ];
 
+            if (null === Auth::guard('twill_users')->user()) {
+                return false;
+            }
+
             $authorized = array_key_exists($option, $authorizableOptions) ? Auth::guard('twill_users')->user()->can($authorizableOptions[$option]) : true;
             return ($this->indexOptions[$option] ?? $this->defaultIndexOptions[$option] ?? false) && $authorized;
         });
