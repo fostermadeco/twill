@@ -9,6 +9,7 @@
         :id="uniqId"
         :placeholder="placeholder"
         :disabled="disabled"
+        :maxlength="displayedMaxlength"
         :required="required"
         :readonly="readonly"
         :rows="rows"

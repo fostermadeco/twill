@@ -58,22 +58,24 @@
                          :initialValue="firstMedia.metadatas.default.altText" size="small" @focus="focus" @blur="blur"/>
 
           <a17-locale type="a17-textfield" v-if="isImage && translatableMetadatas.includes('caption')"
-                      :attributes="{ type: 'textarea', rows: 123, label: 'caption test 123', name: 'caption', size: 'small' }"
+                      :attributes="{ type: 'textarea', rows: 1, label: $trans('media-library.sidebar.caption', 'Caption'), name: 'caption', size: 'small' }"
                       :initialValues="captionValues" @focus="focus" @blur="blur"></a17-locale>
-          <a17-textfield v-else-if="isImage" type="textarea" :rows="456" size="small" :label="$trans('media-library.sidebar.caption', 'Caption')" name="caption"
+          <a17-textfield v-else-if="isImage" type="textarea" :rows="1" size="small" :label="$trans('media-library.sidebar.caption', 'Caption')" name="caption"
                          :initialValue="firstMedia.metadatas.default.caption" @focus="focus" @blur="blur"/>
 
           <template v-for="field in singleOnlyMetadatas">
             <a17-locale type="a17-textfield" v-bind:key="field.name"
                         v-if="isImage && (field.type === 'text' || !field.type) && translatableMetadatas.includes(field.name)"
-                        :attributes="{ label: field.label, name: field.name, type: 'textarea', maxlength: field.maxlength || null, rows: 111, size: 'small' }"
+                        :attributes="{ label: field.label, name: field.name, type: 'textarea', maxlength: field.maxlength || null, rows: 1, size: 'small' }"
                         :initialValues="firstMedia.metadatas.default[field.name]" @focus="focus" @blur="blur"/>
             <a17-textfield v-bind:key="field.name" v-else-if="isImage && (field.type === 'text' || !field.type)"
                            :label="field.label"
                            :name="field.name"
                            :maxlength="field.maxlength"
                            size="small"
-                           :initialValue="firstMedia.metadatas.default[field.name]" type="textarea" :rows="222"
+                           :initialValue="firstMedia.metadatas.default[field.name]"
+                           type="textarea"
+                           :rows="1"
                            @focus="focus" @blur="blur"/>
             <div class="mediasidebar__checkbox"
                  v-if="isImage && (field.type === 'checkbox')"
@@ -86,7 +88,7 @@
         <template v-for="field in singleAndMultipleMetadatas">
           <a17-locale type="a17-textfield" v-bind:key="field.name"
                       v-if="isImage && (field.type === 'text' || !field.type)&& ((hasMultipleMedias && !fieldsRemovedFromBulkEditing.includes(field.name)) || hasSingleMedia) && translatableMetadatas.includes(field.name)"
-                      :attributes="{ label: field.label, name: field.name, type: 'textarea', maxlength: field.maxlength || null, rows: 333, size: 'small' }"
+                      :attributes="{ label: field.label, name: field.name, type: 'textarea', rows: 1, size: 'small' }"
                       :initialValues="sharedMetadata(field.name, 'object')" @focus="focus" @blur="blur"/>
           <a17-textfield v-bind:key="field.name"
                          v-else-if="isImage && (field.type === 'text' || !field.type) && ((hasMultipleMedias && !fieldsRemovedFromBulkEditing.includes(field.name)) || hasSingleMedia)"
@@ -94,7 +96,7 @@
                          :name="field.name"
                          :maxlength="field.maxlength"
                          size="small" :initialValue="sharedMetadata(field.name)"
-                         type="textarea" :rows="444" @focus="focus" @blur="blur"/>
+                         type="textarea" :rows="1" @focus="focus" @blur="blur"/>
           <div class="mediasidebar__checkbox"
                v-bind:key="field.name"
                v-if="isImage && (field.type === 'checkbox') && ((hasMultipleMedias && !fieldsRemovedFromBulkEditing.includes(field.name)) || hasSingleMedia)">
