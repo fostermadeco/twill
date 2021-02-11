@@ -3,7 +3,7 @@
     <!-- Actual table content -->
     <!--Todo: refactor to remove table-->
     <div class="container">
-      <div class="datatable__table">
+      <div class="datatable__table thang">
         <a17-table>
           <thead>
           <a17-tablehead :columns="visibleColumns" ref="thead"/>
@@ -13,12 +13,17 @@
     </div>
 
     <div class="container">
+      <a17-button variant="validate" @click="saveNestedList" @v-if="draggable"><span>Save List</span></a17-button>
+    </div>
+
+    <div class="container">
       <div class="nested-datatable__table">
         <a17-nested-list
-          :nested="true"
-          :maxDepth="maxDepth"
-          :draggable="draggable"
-        />
+                :nested="true"
+                :maxDepth="maxDepth"
+                :draggable="draggable"
+                :saveOnChange="false"
+                @stateChange="handleStateChange"/>
       </div>
     </div>
   </div>
@@ -36,7 +41,8 @@
     mixins: [DatatableMixin, DraggableMixin, NestedDraggableMixin],
     data: function () {
       return {
-        items: this.$store.state.datatable.data
+        items: this.$store.state.datatable.data,
+        hasChangedParents: false
       }
     },
     components: {
@@ -82,6 +88,23 @@
             }
           })
         }
+      }
+    },
+    methods: {
+      handleStateChange: function (isChangingParents) {
+        this.hasChangedParents = this.hasChangedParents || isChangingParents
+      },
+      saveNestedList: function () {
+        // We increment the tracker because we're not worried about saving while a item is being moved,
+        // but we need the saving method to think something has been moved
+        this.$store.commit(DATATABLE.UPDATE_DATATABLE_TRACKER, 1)
+        // Passing true to saveNestedList basically makes it post the whole nested list to the server.
+        // Technically we may want to pass in the value of this.hasChangedParents, but that may be
+        // false and would just trigger an error. The this.isChangingParents value is just to ensure
+        // that a child has moved to/from a parent to/from somewhere else before the list is saved.
+        // We could also set this.nested = true to get this to work, but we need to set that when
+        // the component is initialized because it is a property.
+        this.saveNewTree(true)
       }
     }
   }
