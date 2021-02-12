@@ -3,7 +3,7 @@
     <!-- Actual table content -->
     <!--Todo: refactor to remove table-->
     <div class="container">
-      <div class="datatable__table thang">
+      <div class="datatable__table">
         <a17-table>
           <thead>
           <a17-tablehead :columns="visibleColumns" ref="thead"/>
@@ -22,8 +22,7 @@
                 :nested="true"
                 :maxDepth="maxDepth"
                 :draggable="draggable"
-                :saveOnChange="false"
-                @stateChange="handleStateChange"/>
+                :saveOnChange="false"/>
       </div>
     </div>
   </div>
@@ -41,8 +40,7 @@
     mixins: [DatatableMixin, DraggableMixin, NestedDraggableMixin],
     data: function () {
       return {
-        items: this.$store.state.datatable.data,
-        hasChangedParents: false
+        items: this.$store.state.datatable.data
       }
     },
     components: {
@@ -91,9 +89,6 @@
       }
     },
     methods: {
-      handleStateChange: function (isChangingParents) {
-        this.hasChangedParents = this.hasChangedParents || isChangingParents
-      },
       saveNestedList: function () {
         // We increment the tracker because we're not worried about saving while a item is being moved,
         // but we need the saving method to think something has been moved

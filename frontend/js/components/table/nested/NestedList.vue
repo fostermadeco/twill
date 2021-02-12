@@ -19,8 +19,7 @@
                        :items="row.children"
                        :nested="true"
                        :draggable="true"
-                       :saveOnChange="false"
-                       @stateChange="tossStateToParent"/>
+                       :saveOnChange="false"/>
     </li>
   </draggable>
 </template>
@@ -84,8 +83,6 @@
 
           if (this.saveOnChange) {
             this.saveNewTree(isChangingParents)
-          } else {
-            this.$emit('stateChange', isChangingParents)
           }
         }
       },
@@ -110,9 +107,6 @@
         return {
           'nested-datatable__item--empty': children.length === 0 && this.depth < this.maxDepth
         }
-      },
-      tossStateToParent: function (isChangingParents) {
-        this.$emit('stateChange', isChangingParents)
       }
     }
   }
