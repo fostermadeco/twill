@@ -245,8 +245,12 @@ const actions = {
   [ACTIONS.SET_DATATABLE_NESTED] ({ commit, state, dispatch }) {
     // Get all ids and children ids if any
     const ids = deepRemoveFromObj(state.data)
+    commit(NOTIFICATION.SET_NOTIF, { message: 'Reordering.....', variant: 'success', autoHide: false })
     api.reorder(ids, function (resp) {
+      commit(NOTIFICATION.CLEAR_NOTIF, 'success')
       commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+    }, function (errorResp) {
+      commit(NOTIFICATION.SET_NOTIF, { message: errorResp.data.message, variant: 'error' })
     })
   },
   [ACTIONS.SET_DATATABLE] ({ commit, state, dispatch }) {

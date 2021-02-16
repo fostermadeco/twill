@@ -21,8 +21,7 @@
         <a17-nested-list
                 :nested="true"
                 :maxDepth="maxDepth"
-                :draggable="draggable"
-                :saveOnChange="false"/>
+                :draggable="draggable"/>
       </div>
     </div>
   </div>

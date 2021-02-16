@@ -18,8 +18,7 @@
                        :parentId="row.id"
                        :items="row.children"
                        :nested="true"
-                       :draggable="true"
-                       :saveOnChange="false"/>
+                       :draggable="true"/>
     </li>
   </draggable>
 </template>
@@ -45,10 +44,6 @@
       items: {
         type: Array,
         default: () => []
-      },
-      saveOnChange: {
-        type: Boolean,
-        default: true
       }
     },
     data: function () {
@@ -73,7 +68,8 @@
             val: value
           }
 
-          const isChangingParents = (this.rows.length !== data.val.length)
+          // Uncomment this if switching back to automatic saving
+          // const isChangingParents = (this.rows.length !== data.val.length)
 
           if (this.parentId > -1) {
             this.$store.commit(DATATABLE.UPDATE_DATATABLE_NESTED, data)
@@ -81,9 +77,8 @@
             this.$store.commit(DATATABLE.UPDATE_DATATABLE_DATA, value)
           }
 
-          if (this.saveOnChange) {
-            this.saveNewTree(isChangingParents)
-          }
+          // Moved saving to a manual save on NestedDatatable
+          // this.saveNewTree(isChangingParents)
         }
       },
       nestedDropAreaClasses: function () {
